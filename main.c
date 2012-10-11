@@ -3,7 +3,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "lcd/lcd.h"
+#include "lib/lcd.h"
 
 int main(void)
 {

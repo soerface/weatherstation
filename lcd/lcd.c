@@ -155,12 +155,12 @@ void lcd_send(unsigned char type, unsigned char c)
 }
 
 void lcd_set_battery_level(int level) {
-    battery_level = level + 1;
-    if (battery_level < 1) {
-        battery_level = 1;
-    } else if (battery_level > 7) {
-        battery_level = 7;
+    if (level < 0) {
+        level = 0;
+    } else if (level > 6) {
+        level = 6;
     }
+    battery_level = level + 1;
 }
 
 void lcd_set_label(char *k, char *v) {

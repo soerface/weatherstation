@@ -170,18 +170,16 @@ void lcd_set_label(char *k, char *v) {
     lcd_write(v);
     // shift battery symbol to the top right corner
     lcd_send(CMD, LCD_HOME);
-    for (uint8_t i=0; i<15; i++) {
-        lcd_send(CMD, 0b10100);
-    }
+    lcd_set_pos(15, 0);
     lcd_send(DATA, battery_level);
 }
 
 void lcd_set_line(int pos) {
-    lcd_send(CMD, LCD_SETDDRAM +0x40);  //Cursor auf 1.Position Zeile 2
+    lcd_set_pos(0, pos);
 }
 
 void lcd_set_pos(int posx, int posy) {
-
+    lcd_send(CMD, LCD_SETDDRAM + posx + 0x40 * posy);
 }
 
 void lcd_write(char *t)

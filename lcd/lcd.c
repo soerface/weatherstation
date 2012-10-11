@@ -27,6 +27,33 @@ void lcd_clear() {
     lcd_send(CMD, LCD_CLEAR);
 }
 
+void lcd_generate_char(uint8_t code, const uint8_t *data)
+{
+    // Startposition des Zeichens einstellen
+    lcd_send(CMD, 0x40|(code<<3));
+
+    // Bitmuster übertragen
+    for (uint8_t i=0; i<8; i++)
+    {
+        lcd_send(DATA, data[i]);
+    }
+}
+
+void lcd_generate_chars() {
+    lcd_send(CMD, 0x40|(0<<3));
+    uint8_t data[8] = {
+        0b00110,
+        0b01001,
+        0b01001,
+        0b00110,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+    };
+    lcd_generate_char(0, data);
+}
+
 void lcd_init()
 {
 /* Port auf Ausgang schalten */
@@ -63,6 +90,8 @@ void lcd_init()
 
   lcd_send(CMD, 0x06);
   lcd_send(CMD, LCD_ON);
+  lcd_generate_chars();
+  lcd_clear();
 }
 
 void lcd_send(unsigned char type, unsigned char c)
@@ -137,12 +166,18 @@ void lcd_set_pos(int posx, int posy) {
 
 void lcd_write(char *t)
 {
-  unsigned char i;
-  for (i=0;i<255;i++)
+  for (uint8_t i=0; i<255; i++)
   {
-    if (t[i]=='\0')
+    if (t[i]=='\0') {
       return;
-    else
+    }
+    // insert custom characters
+    else if (t[i] == 'C' && t[i-1] == ' ' && t[i+1] == '\0') {
+        lcd_send(DATA, 0);
+        lcd_send(DATA, 'C');
+    }
+    else {
       lcd_send(DATA, t[i]);
+    }
   }
 }

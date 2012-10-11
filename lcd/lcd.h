@@ -26,6 +26,8 @@
 
 void lcd_clear(void);
 void lcd_init(void);
+void lcd_generate_char(uint8_t code, const uint8_t *data);
+void lcd_generate_chars(void);
 void lcd_send(unsigned char type, unsigned char c);
 // Writes label and value on the display, e.g. lcd_set_label("Temperature", "15.5 °C")
 void lcd_set_label(char *k, char *v);

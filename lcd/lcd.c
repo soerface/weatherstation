@@ -23,6 +23,8 @@
 #include <util/delay.h>
 #include "lcd.h"
 
+uint8_t battery_level = 1;
+
 void lcd_clear() {
     lcd_send(CMD, LCD_CLEAR);
 }
@@ -41,16 +43,16 @@ void lcd_generate_char(uint8_t code, const uint8_t *data)
 
 void lcd_generate_chars() {
     lcd_send(CMD, 0x40|(0<<3));
-    // custom character data: °, Battery full, Battery
+    // custom character data: °, Battery empty, Battery..., Battery full
     uint8_t data[8][8] = {
         {0b00110, 0b01001, 0b01001, 0b00110, 0b00000, 0b00000, 0b00000, 0b00000},
-        {0b01110, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
-        {0b01110, 0b11011, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
-        {0b01110, 0b11011, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
-        {0b01110, 0b11011, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111},
-        {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111},
-        {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111},
         {0b01110, 0b11011, 0b10101, 0b10101, 0b10001, 0b10101, 0b10001, 0b11111},
+        {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111},
+        {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111},
+        {0b01110, 0b11011, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111},
+        {0b01110, 0b11011, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
+        {0b01110, 0b11011, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
+        {0b01110, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
     };
     for (uint8_t i=0; i<8; i++) {
         lcd_generate_char(i, data[i]);
@@ -152,11 +154,26 @@ void lcd_send(unsigned char type, unsigned char c)
   _delay_ms(5);
 }
 
+void lcd_set_battery_level(int level) {
+    battery_level = level + 1;
+    if (battery_level < 1) {
+        battery_level = 1;
+    } else if (battery_level > 7) {
+        battery_level = 7;
+    }
+}
+
 void lcd_set_label(char *k, char *v) {
     lcd_clear();
     lcd_write(k);
     lcd_set_line(1);
     lcd_write(v);
+    // shift battery symbol to the top right corner
+    lcd_send(CMD, LCD_HOME);
+    for (uint8_t i=0; i<15; i++) {
+        lcd_send(CMD, 0b10100);
+    }
+    lcd_send(DATA, battery_level);
 }
 
 void lcd_set_line(int pos) {

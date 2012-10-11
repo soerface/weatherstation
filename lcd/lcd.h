@@ -29,6 +29,8 @@ void lcd_init(void);
 void lcd_generate_char(uint8_t code, const uint8_t *data);
 void lcd_generate_chars(void);
 void lcd_send(unsigned char type, unsigned char c);
+// Set the battery level, from 0 (empty) to 6 (full)
+void lcd_set_battery_level(int level);
 // Writes label and value on the display, e.g. lcd_set_label("Temperature", "15.5 °C")
 void lcd_set_label(char *k, char *v);
 // Switch to line `pos`

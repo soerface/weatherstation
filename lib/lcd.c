@@ -25,9 +25,12 @@
 
 #include "lcd.h"
 
-uint8_t battery_level = 1;
+uint8_t current_battery_level = 1;
+uint8_t last_battery_level = 1;
 char current_label[32];
 char current_value[32];
+char last_label[32];
+char last_value[32];
 
 void lcd_clear() {
     lcd_send(CMD, LCD_CLEAR);
@@ -164,7 +167,7 @@ void lcd_set_battery_level(int level) {
     } else if (level > 6) {
         level = 6;
     }
-    battery_level = level + 1;
+    current_battery_level = level + 1;
 }
 
 void lcd_set_label(char *k, char *v) {
@@ -181,14 +184,30 @@ void lcd_set_pos(int posx, int posy) {
 }
 
 void lcd_update() {
-    lcd_clear();
-    lcd_write(current_label);
-    lcd_set_line(1);
-    lcd_write(current_value);
+    if (strcmp(current_label, last_label)) {
+        lcd_set_line(0);
+        for (int i=0; i<strlen(last_label); i++) {
+            lcd_write(" ");
+        }
+        lcd_set_line(0);
+        lcd_write(current_label);
+        strcpy(last_label, current_label);
+    }
+    if (strcmp(current_value, last_value)) {
+        lcd_set_line(1);
+        for (int i=0; i<strlen(last_value); i++) {
+            lcd_write(" ");
+        }
+        lcd_set_line(1);
+        lcd_write(current_value);
+        strcpy(last_value, current_value);
+    }
     // shift battery symbol to the top right corner
-    lcd_send(CMD, LCD_HOME);
-    lcd_set_pos(15, 0);
-    lcd_send(DATA, battery_level);
+    if (current_battery_level != last_battery_level) {
+        lcd_set_pos(15, 0);
+        lcd_send(DATA, current_battery_level);
+        last_battery_level = current_battery_level;
+    }
 }
 
 void lcd_write(char *t)

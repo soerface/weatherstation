@@ -20,10 +20,14 @@
 
 
 #include <avr/io.h>
+#include <string.h>
 #include <util/delay.h>
+
 #include "lcd.h"
 
 uint8_t battery_level = 1;
+char current_label[32];
+char current_value[32];
 
 void lcd_clear() {
     lcd_send(CMD, LCD_CLEAR);
@@ -164,14 +168,8 @@ void lcd_set_battery_level(int level) {
 }
 
 void lcd_set_label(char *k, char *v) {
-    lcd_clear();
-    lcd_write(k);
-    lcd_set_line(1);
-    lcd_write(v);
-    // shift battery symbol to the top right corner
-    lcd_send(CMD, LCD_HOME);
-    lcd_set_pos(15, 0);
-    lcd_send(DATA, battery_level);
+    strcpy(current_label, k);
+    strcpy(current_value, v);
 }
 
 void lcd_set_line(int pos) {
@@ -180,6 +178,17 @@ void lcd_set_line(int pos) {
 
 void lcd_set_pos(int posx, int posy) {
     lcd_send(CMD, LCD_SETDDRAM + posx + 0x40 * posy);
+}
+
+void lcd_update() {
+    lcd_clear();
+    lcd_write(current_label);
+    lcd_set_line(1);
+    lcd_write(current_value);
+    // shift battery symbol to the top right corner
+    lcd_send(CMD, LCD_HOME);
+    lcd_set_pos(15, 0);
+    lcd_send(DATA, battery_level);
 }
 
 void lcd_write(char *t)

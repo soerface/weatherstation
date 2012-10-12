@@ -37,4 +37,6 @@ void lcd_set_label(char *k, char *v);
 void lcd_set_line(int pos);
 // Switch to position `posx` `posy`
 void lcd_set_pos(int posx, int posy);
+// Display the current data
+void lcd_update(void);
 void lcd_write(char *t);

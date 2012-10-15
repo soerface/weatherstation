@@ -18,24 +18,7 @@ void analog_init()// Initialisieren des analogen Eingangs
 int analog_read(int channel)
 {
 	ADMUX &= 0xF0; // Kanal zurücksetzen
-	
-	switch (channel) //Kanal auswählen
-	{
-		case 1:				//PC1 Barometer
-		{
-			ADMUX |= (1<<MUX0);
-			break;
-		}
-		case 2:				//PC2 Batterie
-		{
-			ADMUX |= (1<<MUX1);
-			break;
-		}
-		default:				//PC3 Batterie
-		{
-			break;
-		}
-	}
+        ADMUX |= (1<<channel);
 	ADMUX |= (1<<REFS0); //AVCC als Referenz (hier: 5 bzw. 0V)
 	ADMUX |= (1<<ADLAR); // links anfangen
 	ADCSRA |= (1<<ADSC); // Starten der Wandlung

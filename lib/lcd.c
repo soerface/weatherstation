@@ -1,24 +1,3 @@
-/****************************************************************
-*  LCD Ausgabe für Hitachi HD44780 kompatible LCD Controller
-*
-*  Mikroontroller:  AT90PWM316
-*  Clock:      8MHz intern
-*  LCD-Display:  Displaytech 162B
-*  LCD-Controller:  KS0070B
-*
-*  Konfiguration:  PORT D7 = LCD D7
-*           PORT D6 = LCD D6
-*           PORT D5 = LCD D5
-*           PORT D4 = LCD D4
-*          PORT D3 = LCD E
-*          PORT D2 = LCD RS
-*          GND    = LCD Vss + LCD R/W  + LCD K
-*          +5V    = LCD Vdd
-*          Poti  = LCD V0
-*  +5V (über R = 1kOhm)  = LCD A
-****************************************************************/
-
-
 #include <avr/io.h>
 #include <string.h>
 #include <util/delay.h>

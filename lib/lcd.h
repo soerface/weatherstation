@@ -1,6 +1,6 @@
-#define LCDPORT      PORTD
-#define LCDDDR      DDRD
-#define LCDDDR_PORT 0xFB
+#define LCDPORT       PORTD
+#define LCDDDR        DDRD
+#define LCDDDR_PORT   0xFB
 #define LCD_PIN_RS    0
 #define LCD_PIN_E     1
 #define LCD_PIN_D4    3
@@ -8,7 +8,6 @@
 #define LCD_PIN_D6    5
 #define LCD_PIN_D7    6
 #define LCD_SETDDRAM  0x80 // Set Display RAM Address
-
 
 /***** LCD STEUERBEFEHLE *****/
 

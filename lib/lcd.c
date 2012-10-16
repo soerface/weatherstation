@@ -3,6 +3,7 @@
 #include <util/delay.h>
 
 #include "lcd.h"
+#include "utils.h"
 
 uint8_t current_battery_level = 1;
 uint8_t last_battery_level = 1;

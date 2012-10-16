@@ -20,9 +20,6 @@
 
 #define CMD           0
 #define DATA          1
-#define sbi(sfr, bit) (sfr  |=  (1<<bit))
-#define cbi(sfr, bit) (sfr  &=  ~(1<<bit))
-
 
 void lcd_clear(void);
 void lcd_init(void);

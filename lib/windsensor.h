@@ -4,7 +4,7 @@
 *******************************************/
 #define ANEMO_DDR DDRB
 #define ANEMO_PIN PINB
-#define ANMEO_PORT PB0
+#define ANEMO_PORT PB0
 
 void  anemometer_init(void);
 float anemometer_read(void);

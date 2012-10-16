@@ -5,6 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 
+#include "windsensor.h"
 #include "utils.h"
 
 volatile unsigned int millisekunden;
@@ -25,7 +26,7 @@ void anemometer_init()
     sbi(TIMSK0, OCIE0A);
     sei();
     //TCCR0B |= (1<<CS01);
-    sbi(TCCR0B, CS01)
+    sbi(TCCR0B, CS01);
 }
 
 float anemometer_read()
@@ -35,12 +36,12 @@ float anemometer_read()
 
 ISR(TIMER0_COMPA_vect)
 {
-    if (state == 0 && (ANMEO_PIN & (0x01)))
+    if (state == 0 && (ANEMO_PIN & (0x01)))
     {
         state = 1;
         i++;
     }
-    else if (state == 1 && (!(ANMEO_PIN & (0x01))))
+    else if (state == 1 && (!(ANEMO_PIN & (0x01))))
     {
         state = 0;
     }

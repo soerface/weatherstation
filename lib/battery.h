@@ -1,1 +1,1 @@
-int battery_state(void);
+int battery_read(void);

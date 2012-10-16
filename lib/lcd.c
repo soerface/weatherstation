@@ -70,7 +70,7 @@ void lcd_init()
 {
 /* Port auf Ausgang schalten */
   LCDPORT = 0x00;
-  LCDDDR  = 0xFF;
+  LCDDDR  = LCDDDR_PORT;
 
   _delay_ms(40); // Warten bis LCD bereit ...
 

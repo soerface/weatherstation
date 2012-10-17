@@ -3,7 +3,7 @@
 
 #include "utils.h"
 
-void float2string(char zieltxt[10], float zahl)
+void float2string(char zieltxt[16], float zahl)
 {
     int _vorkomma = 0, _nachkomma = 0;
     float _buffer = 0;

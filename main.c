@@ -44,13 +44,13 @@ void init(void) {
 
 int main(void)
 {
-    char buf[10];
+    char buf[16];
     char labels[2][16] = {
         "Luftdruck",
         "Windgeschw.",
     };
-    char units[2][8] = {
-        "p",
+    char units[2][16] = {
+        "Pa",
         "m/s",
     };
     float (*functions[2]) () = {

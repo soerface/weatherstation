@@ -36,4 +36,5 @@ void lcd_set_line(int pos);
 void lcd_set_pos(int posx, int posy);
 // Display the current data
 void lcd_update(void);
+void lcd_update_line(int line, char current_buf[16], char last_buf[16]);
 void lcd_write(char *t);

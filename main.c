@@ -49,6 +49,10 @@ int main(void)
         "Luftdruck",
         "Windgeschw.",
     };
+    char units[2][8] = {
+        "p",
+        "m/s",
+    };
     float (*functions[2]) () = {
         barometer_read,
         anemometer_read,
@@ -59,8 +63,8 @@ int main(void)
     {
         lcd_set_battery_level(battery_read());
         float2string(buf, functions[selection]());
+        sprintf(buf, "%s %s", buf, units[selection]);
         lcd_set_label(labels[selection], buf);
-
         lcd_update();
     }
     return 0;

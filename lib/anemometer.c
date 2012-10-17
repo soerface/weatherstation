@@ -5,7 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 
-#include "windsensor.h"
+#include "anemometer.h"
 #include "utils.h"
 
 volatile unsigned int millisekunden;
